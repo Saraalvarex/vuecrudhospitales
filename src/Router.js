@@ -1,13 +1,13 @@
 import { createRouter, createWebHistory } from "vue-router";
 import HomeComponent from './components/HomeComponent.vue';
-
+import HospitalComponent from './components/HospitalComponent.vue';
 const routes = [
     {
         path: "/", component: HomeComponent        
+    },
+    {
+        path: "/hospital/:idhospital", component: HospitalComponent
     }
-    // {
-    //     path: "/insert/", component: InsertDepartamento
-    // },
     // {
     //     path: "/detalles/:numero/:nombre/:localidad", component: DetallesDepartamento
     // },
