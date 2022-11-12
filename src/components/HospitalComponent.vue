@@ -13,13 +13,14 @@
     <span aria-hidden="true">&larr;</span> Back
    </router-link>
     <!-- <a href="#" class="card-link">Link</a> -->
-    <!-- <button class="btn btn-outline-success" @click="updateHospital()">Editar</button> -->
-   <router-link :to="'/modificar/'+hospital.id" class="btn btn-success">Editar</router-link>  
+   <router-link :to="'/update/'+this.$route.params.idhospital" class="btn btn-success">Editar</router-link>
+    <button class="btn btn-danger" @click="eliminarHospital()">Eliminar</button>
   </div>
 </div>
 </template>
 
 <script>
+import Swal from 'sweetalert2';
 import ServiceHospitales from './../services/ServiceHospitales';
 const service = new ServiceHospitales();
 
@@ -27,8 +28,7 @@ export default {
  name: 'HospitalComponent',
  data() {
  return {
-    hospital: {},
-    statusbtn: false
+    hospital: {}, nombrehospital: null
     };
  },
  mounted(){
@@ -36,11 +36,36 @@ export default {
         this.hospital=result;
     })
  },
-//  Para que actualice el hospital seleccionado
+// Para que actualice en la pagina, el hospital seleccionado en el "select"
  updated(){
      service.getHospital(this.$route.params.idhospital).then(result=>{
         this.hospital=result;
     })
+ },
+ methods: {
+   eliminarHospital(){
+              Swal.fire({
+            title: '¿Estás seguro de que quieres eliminar el hospital nº '+this.$route.params.idhospital+'?',
+            text: "¡No podrás revertir esto!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '##54FF72',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Borrar'
+        }).then((result) => {
+        if (result.isConfirmed) {
+            service.deleteHospital(this.$route.params.idhospital).then(result=>{
+            console.log(result);
+            this.$router.push("/");
+            })
+            Swal.fire(   
+            '¡Borrado!',
+            'El hospital ha sido eliminado.',
+            'success'
+            )
+        }
+    })
+   }
  }
 };
 </script>

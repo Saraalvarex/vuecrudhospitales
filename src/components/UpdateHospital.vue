@@ -1,7 +1,8 @@
 <template>
-     <div style="width: 500px; margin: 0 auto" v-if="statusbtn==true">
+     <div style="width: 500px; margin: 0 auto" v-if="hospital">
+         <br>
     <form method="post" v-on:submit.prevent="updateHospital()">
-        <label style="color: red">Estás modificando el hospital: {{hospital.nombre}}</label>
+        <h3 style="color: red">Estás modificando el hospital: {{hospital.nombre}}</h3>
         <input class="form-control" type="hidden"
         v-model="hospital.idHospital"
         /><br/>
@@ -18,10 +19,13 @@
         v-model="hospital.telefono"
         /><br/>
         <label>Camas: </label>
-        <input class="form-control" type="text"
+        <input class="form-control" type="number"
         v-model="hospital.camas"
         /><br/>
-        <button class="btn btn-outline-success" @click="updateHospital()">Editar</button>
+         <router-link :to="'/hospital/'+hospital.idHospital" class="btn btn-warning">
+            <span aria-hidden="true">&larr;</span> Back
+        </router-link>
+        <button class="btn btn-outline-success">Editar</button>
     </form>
  </div>
 </template>
@@ -35,14 +39,18 @@ export default {
  name: 'UpdateHospital',
  data() {
  return {
- 
- };
+     hospital: null
+    };
+ },
+ mounted(){
+    service.getHospital(this.$route.params.idhospital).then(result=>{
+        this.hospital=result
+    })
  },
  methods: {
     updateHospital(){
-        this.statusbtn=true;
         Swal.fire({
-            title: '¿Estás seguro de que quieres editar el hospital nº '+this.hospital+'?',
+            title: '¿Estás seguro de que quieres editar el hospital: '+this.hospital.nombre+'?',
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '##54FF72',
@@ -52,15 +60,13 @@ export default {
         if (result.isConfirmed) {
             service.updateHospital(this.hospital).then(result=> {
                 console.log(result);
-                service.getHospital().then(result=>{
-                    this.hospital=result;
-                })
             })
             Swal.fire(   
-            '¡Editado!',
+            '¡Editado correctamente!',
             'El hospital ha sido editado.',
             'success'
             )
+            this.$router.push("/hospital/"+this.hospital.idHospital)
         }
     })
     }

@@ -20,20 +20,31 @@ export default class ServiceHospitales {
             })
         })
     }
-    // putHospital(idhospital){
-    //     return new Promise(function(resolve){
-    //         var request = 'api/Hospitales/';
-    //         var url = Global.url + request;
-    //         const data = {
-    //             "idHospital": 0,
-    //             "nombre": "la pazzzz",
-    //             "direccion": "castellana 1000",
-    //             "telefono": "923-5411",
-    //             "camas": 412
-    //         }
-    //         axios.put(url, data).then(response =>{
-    //             resolve(response)
-    //         })
-    //     })
-    // }
+    insertHospital(hospital){
+        return new Promise(function(resolve){
+            var request = '/api/Hospitales/'
+            var url = Global.url + request
+            axios.post(url, hospital).then(res=> {
+                resolve(res.data)
+            })
+        })
+    }
+    updateHospital(hospital){
+        return new Promise(function(resolve){
+            var request = 'api/Hospitales/';
+            var url = Global.url + request;
+            axios.put(url, hospital).then(response =>{
+                resolve(response)
+            })
+        })
+    }
+    deleteHospital(idhospital){
+        return new Promise(function(resolve){
+            var request = 'api/hospitales/'+idhospital
+            var url = Global.url+request
+            axios.delete(url).then(response=>{
+                resolve(response)
+            })
+        })
+    }
 }
