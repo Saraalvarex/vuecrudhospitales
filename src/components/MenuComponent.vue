@@ -24,6 +24,10 @@
             </li>
           </ul>
         </li>
+        <form class="d-flex" role="search" @submit.prevent="buscarHospital()">
+          <input class="form-control me-2" v-model="search" type="search" placeholder="Nombre" aria-label="Search">
+           <router-link class="btn btn-outline-success" :to="'/titulo/'+search">Buscar</router-link>
+        </form>
       </ul>
     </div>
   </div>
@@ -40,6 +44,13 @@ export default {
  return {
    hospitales: []
  };
+ },
+ methods: {
+  //  buscarHospital(){
+  //    service.getNombreHospital(22).then(resu=>{
+       
+  //    })
+  //  }
  },
  mounted(){
    service.getHospitales().then(resu=>{

@@ -20,6 +20,16 @@ export default class ServiceHospitales {
             })
         })
     }
+    getNombreHospital(idhospital){
+        return new Promise(function(resolve){
+            var request = 'api/Hospitales/'+idhospital;
+            var url = Global.url + request;
+            axios.get(url).then(response =>{
+                resolve(response.data)
+                console.log(resolve)
+            })
+        })
+    }
     insertHospital(hospital){
         return new Promise(function(resolve){
             var request = '/api/Hospitales/'
