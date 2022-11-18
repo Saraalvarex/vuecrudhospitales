@@ -1,7 +1,7 @@
 <template>
  <div style="width: 500px; margin: 0 auto">
          <br>
-    <form method="put" v-on:submit.prevent="insertHospital()">
+    <form method="post" v-on:submit.prevent="insertHospital()">
         <h2 style="color: blue">Añadir hospital 🏥</h2>
         <h3 style="color: red">{{mensaje}}</h3>
         <input class="form-control" type="hidden"
